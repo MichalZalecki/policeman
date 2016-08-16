@@ -34,9 +34,23 @@ function determinesWhetherSourceIsValid(t) {
     t.is(validator({}).valid, false, "validator determines whether source is valid");
     t.is(validator({ name: "foo" }).valid, true, "validator determines whether source is not valid");
 }
+function makeUseOfMapperFilter(t) {
+    var required = validators_1.isRequired(function () { return "is required"; });
+    var isUnderage = function (_value, source) { return source.age < 18; };
+    var schema = [
+        ["name", "name", [required]],
+        ["clubCard", "clubCard", [required], isUnderage],
+    ];
+    var validator = policeman_1.default(schema);
+    t.is(validator({ name: "Foo", age: 18 }).valid, true);
+    t.is(validator({ name: "Foo", age: 17 }).valid, false);
+    t.deepEqual(validator({ name: "Foo", age: 17 }).errors.clubCard, ["is required"]);
+    t.is(validator({ name: "Foo", age: 17, clubCard: "123ABC" }).valid, true);
+}
 tape("policeman", function (t) {
-    t.plan(3);
+    t.plan(7);
     returnsErrorObjects(t);
     determinesWhetherSourceIsValid(t);
+    makeUseOfMapperFilter(t);
 });
 //# sourceMappingURL=policeman.test.js.map

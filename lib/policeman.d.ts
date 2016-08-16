@@ -1,4 +1,4 @@
-import { Source, Result } from "mappet";
+import { Source, Result, Filter } from "mappet";
 export interface Message {
     (value: any): string;
 }
@@ -11,8 +11,9 @@ export interface SchemaValidator {
         valid: boolean;
     };
 }
-export declare type SchemaEntry = [string, string, EntryValidator[]];
-export declare type Schema = SchemaEntry[];
+export declare type BasicSchemaEntry = [string, string, EntryValidator[]];
+export declare type FilterableSchemaEntry = [string, string, EntryValidator[], Filter];
+export declare type Schema = [BasicSchemaEntry | FilterableSchemaEntry];
 /**
  * Produce validator based on provided schema
  *
