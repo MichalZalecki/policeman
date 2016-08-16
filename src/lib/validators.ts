@@ -20,3 +20,8 @@ export const isEmail = curry((message: Message, value: string) => {
   const valid = /^[a-z0-9_\-\.]{2,}@[a-z0-9_\-\.]{2,}\.[a-z]{2,}$/i.test(value);
   return valid ? null : message(value);
 });
+
+export const isMatching = curry((regexp: RegExp, message: Message, value: string) => {
+  const valid = regexp.test(value);
+  return valid ? null : message(value);
+});

@@ -17,15 +17,15 @@ npm i -S policeman
 
 ## Built-in validators
 
-* `isRequired`
-* `minLength`
-* `maxLength`
-* `isEmail`
+* `isRequired(message, value)`
+* `minLength(min, message, value)`
+* `maxLength(max, message, value)`
+* `isEmail(message, value)`
+* `isMaching(regexp, message, value)`
 
 TODO:
 
-* `isMaching`
-
+* `isPassing(predicate, message, value)`
 
 ## Examples
 

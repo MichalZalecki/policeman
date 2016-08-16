@@ -5,6 +5,7 @@ import {
   minLength,
   maxLength,
   isEmail,
+  isMatching,
 } from "../lib/validators";
 
 function testIsRequired(t: tape.Test) {
@@ -36,10 +37,18 @@ function testIsEmail(t: tape.Test) {
   t.is(email("foo@.com"), "is invalid email", "isEmail fails on invalid email");
 }
 
+function testIsMatching(t: tape.Test) {
+  const matching = isMatching(/^\d{3}-?\d{3}-?\d{3}$/, () => "is invalid number");
+  t.is(matching("777-888-999"), null, "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) accepts valid number");
+  t.is(matching("777888999"), null, "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) accepts valid number");
+  t.is(matching("aaa-bbb-ccc"), "is invalid number", "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) fails on invalid number");
+}
+
 tape("validators", (t: tape.Test) => {
-  t.plan(13);
+  t.plan(16);
   testIsRequired(t);
   testMinLengthValidator(t);
   testMaxLengthValidator(t);
   testIsEmail(t);
+  testIsMatching(t);
 });

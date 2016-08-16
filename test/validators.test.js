@@ -26,11 +26,18 @@ function testIsEmail(t) {
     t.is(email("foo@bar.com"), null, "isEmail accepts valid email");
     t.is(email("foo@.com"), "is invalid email", "isEmail fails on invalid email");
 }
+function testIsMatching(t) {
+    var matching = validators_1.isMatching(/^\d{3}-?\d{3}-?\d{3}$/, function () { return "is invalid number"; });
+    t.is(matching("777-888-999"), null, "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) accepts valid number");
+    t.is(matching("777888999"), null, "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) accepts valid number");
+    t.is(matching("aaa-bbb-ccc"), "is invalid number", "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) fails on invalid number");
+}
 tape("validators", function (t) {
-    t.plan(13);
+    t.plan(16);
     testIsRequired(t);
     testMinLengthValidator(t);
     testMaxLengthValidator(t);
     testIsEmail(t);
+    testIsMatching(t);
 });
 //# sourceMappingURL=validators.test.js.map
