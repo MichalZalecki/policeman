@@ -25,3 +25,8 @@ export const isMatching = curry((regexp: RegExp, message: Message, value: string
   const valid = regexp.test(value);
   return valid ? null : message(value);
 });
+
+export const isPassing = curry((predicate: ((value: any) => boolean), message: Message, value: string) => {
+  const valid = predicate(value);
+  return valid ? null : message(value);
+});

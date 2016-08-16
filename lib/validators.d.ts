@@ -4,3 +4,4 @@ export declare const minLength: _.CurriedFunction3<number, Message, string, stri
 export declare const maxLength: _.CurriedFunction3<number, Message, string, string>;
 export declare const isEmail: _.CurriedFunction2<Message, string, string>;
 export declare const isMatching: _.CurriedFunction3<RegExp, Message, string, string>;
+export declare const isPassing: _.CurriedFunction3<(value: any) => boolean, Message, string, string>;

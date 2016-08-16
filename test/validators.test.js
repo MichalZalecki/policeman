@@ -32,12 +32,19 @@ function testIsMatching(t) {
     t.is(matching("777888999"), null, "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) accepts valid number");
     t.is(matching("aaa-bbb-ccc"), "is invalid number", "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) fails on invalid number");
 }
+function testIsPassing(t) {
+    var isFoo = function (str) { return str === "foo"; };
+    var matching = validators_1.isPassing(isFoo, function () { return "must be \"foo\""; });
+    t.is(matching("foo"), null, "predicate returns true on \"foo\"");
+    t.is(matching("bar"), "must be \"foo\"", "predicate returns false on not \"foo\"");
+}
 tape("validators", function (t) {
-    t.plan(16);
+    t.plan(18);
     testIsRequired(t);
     testMinLengthValidator(t);
     testMaxLengthValidator(t);
     testIsEmail(t);
     testIsMatching(t);
+    testIsPassing(t);
 });
 //# sourceMappingURL=validators.test.js.map

@@ -6,6 +6,7 @@ import {
   maxLength,
   isEmail,
   isMatching,
+  isPassing,
 } from "../lib/validators";
 
 function testIsRequired(t: tape.Test) {
@@ -44,11 +45,19 @@ function testIsMatching(t: tape.Test) {
   t.is(matching("aaa-bbb-ccc"), "is invalid number", "isMatching(/^\d{3}-?\d{3}-?\d{3}$/) fails on invalid number");
 }
 
+function testIsPassing(t: tape.Test) {
+  const isFoo = (str: string) => str === "foo";
+  const matching = isPassing(isFoo, () => "must be \"foo\"");
+  t.is(matching("foo"), null, "predicate returns true on \"foo\"");
+  t.is(matching("bar"), "must be \"foo\"", "predicate returns false on not \"foo\"");
+}
+
 tape("validators", (t: tape.Test) => {
-  t.plan(16);
+  t.plan(18);
   testIsRequired(t);
   testMinLengthValidator(t);
   testMaxLengthValidator(t);
   testIsEmail(t);
   testIsMatching(t);
+  testIsPassing(t);
 });
