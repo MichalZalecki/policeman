@@ -33,7 +33,7 @@ Passed `value` must be a string shorther or with length equal to `max`.
 
 Passed `value` must be a valid email.
 
-### `isMaching(regexp, message, value)`
+### `isMatching(regexp, message, value)`
 
 Passed `value` must pass `regexp`.
 
@@ -42,6 +42,10 @@ Passed `value` must pass `regexp`.
 Passed `predicate` answers on "Is `value` valid?". When `predicate` returns `true` validator passes,
 when `predicate` returns `false` error message is returned.
 
+See [tests](src/test/validators.test.ts) for more examples.
+
 ## Examples
 
 TODO
+
+See [tests](src/test/policeman.test.ts) for more examples.
