@@ -18,13 +18,13 @@ function returnsErrorObjects(t: tape.Test) {
       first_name: "Foo",
     },
     bio: "Lorem ipsum",
-  }
+  };
   const expected = {
     firstName: <any[]> [],
     lastName: ["is required"],
     other: {
       bio: ["should contain at least 10 characters"],
-    }
+    },
   };
   const { errors } = validator(source);
   t.deepEqual(errors, expected, "validator returns errors object defined by schema");

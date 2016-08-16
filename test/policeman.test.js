@@ -22,7 +22,7 @@ function returnsErrorObjects(t) {
         lastName: ["is required"],
         other: {
             bio: ["should contain at least 10 characters"],
-        }
+        },
     };
     var errors = validator(source).errors;
     t.deepEqual(errors, expected, "validator returns errors object defined by schema");
