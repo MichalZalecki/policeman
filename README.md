@@ -1,5 +1,7 @@
 # policeman
 
+[![CircleCI](https://circleci.com/gh/MichalZalecki/policeman.svg?style=svg)](https://circleci.com/gh/MichalZalecki/policeman)
+
 Lightweight yet powerful schema validator
 
 ***
