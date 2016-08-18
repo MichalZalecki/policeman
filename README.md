@@ -51,3 +51,7 @@ See [tests](src/test/validators.test.ts) for more examples.
 TODO
 
 See [tests](src/test/policeman.test.ts) for more examples.
+
+## Roadmap
+
+* Improve importing validators
