@@ -7,7 +7,6 @@ import {
   isEmail,
   isMatching,
   isPassing,
-  isCCV,
 } from "../lib/policeman";
 
 function testIsRequired(t: tape.Test) {
