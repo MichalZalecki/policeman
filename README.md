@@ -57,9 +57,9 @@ It makes `policeman` compatible with all available validators i.e. [validator](h
 import validator from "validator";
 import { isPassing } from "policeman";
 
-const isCreditCard = isPredicate(validator.isCreditCard, () => "is invalid credit card");
-const isUUID4 = isPredicate(value => validator.isUUID(value, 4), () => "is invalid UUID v4");
-const isFTP = isPredicate(value => validator.isURL(value, { protocols: ["ftp"] }, () => "is invalid FTP address");
+const isCreditCard = isPassing(validator.isCreditCard, () => "is invalid credit card");
+const isUUID4 = isPassing(value => validator.isUUID(value, 4), () => "is invalid UUID v4");
+const isFTP = isPassing(value => validator.isURL(value, { protocols: ["ftp"] }, () => "is invalid FTP address");
 ```
 
 See [tests](src/test/validators.test.ts) for more examples.
