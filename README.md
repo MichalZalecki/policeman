@@ -9,7 +9,7 @@ Lightweight yet powerful schema validator
 ***
 
 * Validate objects based on provided schemas
-* Build with [mappet](https://github.com/MichalZalecki/mappet/)
+* Inspired by [mappet](https://github.com/MichalZalecki/mappet/)
 
 ## Installation ([npm](https://www.npmjs.com/package/policeman))
 
