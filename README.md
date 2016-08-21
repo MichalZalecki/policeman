@@ -72,5 +72,4 @@ See [tests](src/test/policeman.test.ts) for more examples.
 
 ## Roadmap
 
-* Improve importing validators
-* Maybe (monad) error?
+* Add examples
