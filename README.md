@@ -19,7 +19,7 @@ npm i -S policeman
 
 ## Built-in validators
 
-All built-in validator are [curried](https://lodash.com/docs#curry).
+All built-in validators are [curried](https://lodash.com/docs#curry).
 
 ### `isRequired(() => message, value)`
 
