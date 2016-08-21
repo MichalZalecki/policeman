@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.2.0
+
+* Errors format corresponds to validation format ([more](src/test/policeman.test.ts))
+* Direct validators import i.e. `import { isEmail } from "policeman"`
+* Rename maxLength and minLength to isMaxLength and isMinLength
+* Add isEqualLength validator
+
 ## 0.1.0
 
 * Allow for filtering schema entries
