@@ -9,7 +9,7 @@ export interface Validator {
   (value: any, source: Object): string;
 }
 
-type Validate = Validator | Validator[];
+export type Validate = Validator | Validator[];
 type Error = string | string[];
 
 /**
@@ -67,17 +67,19 @@ function validateToErrors(
   }
 }
 
+export type Schema = Array<[string, string, Validate] | [string, string, Validate, Filter]>;
+
 /**
  * Produce validator based on provided schema
  *
  * @returns Validator based on provided schema
  */
-export default function policeman(schema: any[][]) {
+export default function policeman(schema: Schema) {
   return (source: Object) => {
     const validated = schema
-      .map(entry => appendValue(source, ...entry))
-      .filter(entry => omitByFilter(source, ...entry))
-      .map(entry => validateToErrors(source, ...entry));
+      .map(entry => appendValue.apply(null, [source, ...entry]))
+      .filter(entry => omitByFilter.apply(null, [source, ...entry]))
+      .map(entry => validateToErrors.apply(null, [source, ...entry]));
 
     const errors = validated.reduce((errs: Object, [errorPath, error]) => set(errs, errorPath, error), {});
     const valid = !validated.find(([_errorPath, _error, correct]) => !correct);
