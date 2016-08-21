@@ -7,13 +7,18 @@ export const isRequired = curry((message: Message, value: string | boolean) => {
   return valid ? null : message(value);
 });
 
-export const minLength = curry((min: number, message: Message, value: string) => {
+export const isMinLength = curry((min: number, message: Message, value: string) => {
   const valid = value.length >= min;
   return valid ? null : message(value);
 });
 
-export const maxLength = curry((max: number, message: Message, value: string) => {
+export const isMaxLength = curry((max: number, message: Message, value: string) => {
   const valid = value.length <= max;
+  return valid ? null : message(value);
+});
+
+export const isEqualLength = curry((equal: number, message: Message, value: string) => {
+  const valid = value.length === equal;
   return valid ? null : message(value);
 });
 

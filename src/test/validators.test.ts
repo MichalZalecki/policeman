@@ -1,12 +1,14 @@
 import * as tape from "tape";
 import {
   isRequired,
-  minLength,
-  maxLength,
+  isMinLength,
+  isMaxLength,
+  isEqualLength,
   isEmail,
   isMatching,
   isPassing,
-} from "../lib/validators";
+  isCCV,
+} from "../lib/policeman";
 
 function testIsRequired(t: tape.Test) {
   const required = isRequired(() => "is required");
@@ -17,18 +19,25 @@ function testIsRequired(t: tape.Test) {
   t.is(required("foo"), null, "isRequired accepts not empty strings");
 }
 
-function testMinLengthValidator(t: tape.Test) {
-  const minLength4 = minLength(4, () => "should be at least 4");
-  t.is(minLength4("foo bar"), null, "minLength(4) accepts strings with 4+ characters");
-  t.is(minLength4("fooz"), null, "minLength(4) accepts strings with 4 characters");
-  t.is(minLength4("foo"), "should be at least 4", "minLength(4) fails on strings with 4- characters");
+function testIsMinLengthValidator(t: tape.Test) {
+  const isMinLength4 = isMinLength(4, () => "should be at least 4");
+  t.is(isMinLength4("foo bar"), null, "isMinLength(4) accepts strings with 4+ characters");
+  t.is(isMinLength4("fooz"), null, "isMinLength(4) accepts strings with 4 characters");
+  t.is(isMinLength4("foo"), "should be at least 4", "isMinLength(4) fails on strings with 4- characters");
 }
 
-function testMaxLengthValidator(t: tape.Test) {
-  const maxLength4 = maxLength(4, () => "should be at most 4");
-  t.is(maxLength4("foo bar"), "should be at most 4", "maxLength(4) fails on strings with 4+ characters");
-  t.is(maxLength4("fooz"), null, "maxLength(4) accepts strings with 4 characters");
-  t.is(maxLength4("foo"), null, "maxLength(4) accepts strings with 4- characters");
+function testIsMaxLengthValidator(t: tape.Test) {
+  const isMaxLength4 = isMaxLength(4, () => "should be at most 4");
+  t.is(isMaxLength4("foo bar"), "should be at most 4", "isMaxLength(4) fails on strings with 4+ characters");
+  t.is(isMaxLength4("fooz"), null, "isMaxLength(4) accepts strings with 4 characters");
+  t.is(isMaxLength4("foo"), null, "isMaxLength(4) accepts strings with 4- characters");
+}
+
+function testIsEqualLengthValidator(t: tape.Test) {
+  const isEqualLength4 = isEqualLength(4, () => "should be 4 characters long");
+  t.is(isEqualLength4("abc"), "should be 4 characters long", "isEqualLength(4) fails on 3 characters long string");
+  t.is(isEqualLength4("abcde"), "should be 4 characters long", "isEqualLength(4) fails on 5 characters long string");
+  t.is(isEqualLength4("abcd"), null, "isEqualLength(4) accepts 4 characters long string");
 }
 
 function testIsEmail(t: tape.Test) {
@@ -52,10 +61,11 @@ function testIsPassing(t: tape.Test) {
 }
 
 tape("validators", (t: tape.Test) => {
-  t.plan(18);
+  t.plan(21);
   testIsRequired(t);
-  testMinLengthValidator(t);
-  testMaxLengthValidator(t);
+  testIsMinLengthValidator(t);
+  testIsMaxLengthValidator(t);
+  testIsEqualLengthValidator(t);
   testIsEmail(t);
   testIsMatching(t);
   testIsPassing(t);
