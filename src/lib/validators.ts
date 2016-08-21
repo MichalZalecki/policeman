@@ -1,8 +1,9 @@
 import * as curry from "lodash/curry";
-import { Message } from "./policeman";
+
+type Message = (value: any) => string;
 
 export const isRequired = curry((message: Message, value: string | boolean) => {
-  const valid = value !== null && value !== undefined && value !== "" && value;
+  const valid = value !== null && value !== undefined && value !== "";
   return valid ? null : message(value);
 });
 

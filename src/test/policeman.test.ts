@@ -1,65 +1,91 @@
 import * as tape from "tape";
-import { Filter } from "mappet";
-import policeman, { Schema } from "../lib/policeman";
-import { isRequired, minLength } from "../lib/validators";
+import policeman, { combineValidators, Filter } from "../lib/policeman";
+import { isRequired, isEmail } from "../lib/validators";
 
-function returnsErrorObjects(t: tape.Test) {
-  const required = isRequired(() => "is required");
-  const minLength20 = minLength(20)(() => "should contain at least 10 characters");
+type Test = tape.Test;
 
-  const schema: Schema = [
-    ["firstName", "personal.first_name", [required]],
-    ["lastName", "personal.last_name", [required]],
-    ["other.bio", "bio", [required, minLength20]],
-  ];
-  const validator = policeman(schema);
-  const source = {
-    personal: {
-      first_name: "Foo",
-    },
-    bio: "Lorem ipsum",
-  };
+function appliesSignleValidator(t: Test) {
+  const requiredCheck = isRequired(() => "is required");
+
+  const validator = policeman([
+    ["fullName", "full_name", requiredCheck],
+  ]);
+
+  const actual = validator({});
   const expected = {
-    firstName: <any[]> [],
-    lastName: ["is required"],
-    other: {
-      bio: ["should contain at least 10 characters"],
+    valid: false,
+    errors: {
+      fullName: "is required",
     },
   };
-  const { errors } = validator(source);
-  t.deepEqual(errors, expected, "validator returns errors object defined by schema");
+
+  t.deepEqual(actual, expected, "results in single error if single validator was specified");
 }
 
-function determinesWhetherSourceIsValid(t: tape.Test) {
-  const required = isRequired(() => "is required");
-  const schema: Schema = [["name", "name", [required]]];
-  const validator = policeman(schema);
-  t.is(validator({}).valid, false, "validator determines whether source is valid");
-  t.is(validator({ name: "foo" }).valid, true, "validator determines whether source is not valid");
+function appliesMultipleValidators(t: Test) {
+  const requiredCheck = isRequired(() => "is required");
+  const emailCheck = isEmail(() => "is invalid email");
+
+  const validator = policeman([
+    ["email", "email", [requiredCheck, emailCheck]],
+  ]);
+
+  const actual = validator({});
+  const expected = {
+    valid: false,
+    errors: {
+      email: ["is required", "is invalid email"],
+    },
+  };
+
+  t.deepEqual(actual, expected, "results in multiple errors if multiple validators were specified");
 }
 
-function makeUseOfMapperFilter(t: tape.Test) {
+function combinesMultipleValidators(t: Test) {
+  const requiredCheck = isRequired(() => "is required");
+  const emailCheck = isEmail(() => "is invalid email");
+
+  const validator = policeman([
+    ["email", "email", combineValidators(requiredCheck, emailCheck)],
+  ]);
+
+  const actual = validator({ email: "invalid" });
+  const expected = {
+    valid: false,
+    errors: {
+      email: "is invalid email",
+    },
+  };
+
+  t.deepEqual(actual, expected, "results in single error if multiple validators were combined");
+}
+
+function skipValidationByFilter(t: Test) {
   interface User {
-    name: string;
-    age: number;
-    clubCard: string;
+    guest: boolean;
+    email?: string;
   }
-  const required = isRequired(() => "is required");
-  const isUnderage: Filter = (_value, source) => (<User> source).age < 18;
-  const schema: Schema = [
-    ["name", "name", [required]],
-    ["clubCard", "clubCard", [required], isUnderage],
-  ];
-  const validator = policeman(schema);
-  t.is(validator({ name: "Foo", age: 18 }).valid, true);
-  t.is(validator({ name: "Foo", age: 17 }).valid, false);
-  t.deepEqual((<User> validator({ name: "Foo", age: 17 }).errors).clubCard, ["is required"]);
-  t.is(validator({ name: "Foo", age: 17, clubCard: "123ABC" }).valid, true);
+  const requiredCheck = isRequired(() => "is required");
+  const emailCheck = isEmail(() => "is invalid email");
+  const isntGuest: Filter = (value: any, source: User) => source.guest !== true;
+
+  const validator = policeman([
+    ["email", "email", [requiredCheck, emailCheck], isntGuest],
+  ]);
+
+  const actual = validator({ guest: true });
+  const expected = {
+    valid: true,
+    errors: {},
+  };
+
+  t.deepEqual(actual, expected, "skips entry validation if filter gives false");
 }
 
-tape("policeman", (t: tape.Test) => {
-  t.plan(7);
-  returnsErrorObjects(t);
-  determinesWhetherSourceIsValid(t);
-  makeUseOfMapperFilter(t);
+tape("policeman", (t: Test) => {
+  t.plan(4);
+  appliesSignleValidator(t);
+  appliesMultipleValidators(t);
+  combinesMultipleValidators(t);
+  skipValidationByFilter(t);
 });
