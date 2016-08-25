@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.2.1
+
+* Fix #1
+* Add example to the README.md
+
 ## 0.2.0
 
 * Errors format corresponds to validation format ([more](src/test/policeman.test.ts))
