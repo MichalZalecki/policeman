@@ -64,16 +64,19 @@ function validCombinesMultipleValidators(t) {
 function skipValidationByFilter(t) {
     const requiredCheck = validators_1.isRequired(() => "is required");
     const emailCheck = validators_1.isEmail(() => "is invalid email");
-    const isntGuest = (value, source) => source.guest !== true;
+    const phoneNumberCheck = validators_1.isMatching(/\d{3}-?\d{3}-?\d{3}/, () => "is invalid phone");
+    const skipGift = (value, source) => source.gift === true;
     const validator = policeman_1.default([
-        ["email", "email", [requiredCheck, emailCheck], isntGuest],
-        ["name", "name", requiredCheck],
+        ["email", "email", [requiredCheck, emailCheck]],
+        ["phone", "phone", policeman_1.combineValidators(requiredCheck, phoneNumberCheck)],
+        ["giftCode", "giftCode", requiredCheck, skipGift],
     ]);
-    const actual = validator({ guest: true });
+    const actual = validator({ gift: false, email: "invalid@example", phone: "777-666-55" });
     const expected = {
         valid: false,
         errors: {
-            name: "is required",
+            email: ["is invalid email"],
+            phone: "is invalid phone",
         },
     };
     t.deepEqual(actual, expected, "skips entry validation if filter gives false");

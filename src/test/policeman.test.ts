@@ -1,6 +1,6 @@
 import * as tape from "tape";
 import policeman, { combineValidators, Filter } from "../lib/policeman";
-import { isRequired, isEmail } from "../lib/validators";
+import { isRequired, isEmail, isMatching } from "../lib/validators";
 
 type Test = tape.Test;
 
@@ -81,23 +81,27 @@ function validCombinesMultipleValidators(t: Test) {
 
 function skipValidationByFilter(t: Test) {
   interface User {
-    guest: boolean;
-    email?: string;
+    gift: boolean;
+    giftCode?: boolean;
+    phone: string;
   }
   const requiredCheck = isRequired(() => "is required");
   const emailCheck = isEmail(() => "is invalid email");
-  const isntGuest: Filter = (value: any, source: User) => source.guest !== true;
+  const phoneNumberCheck = isMatching(/\d{3}-?\d{3}-?\d{3}/, () => "is invalid phone");
+  const skipGift: Filter = (value: any, source: User) => source.gift === true;
 
   const validator = policeman([
-    ["email", "email", [requiredCheck, emailCheck], isntGuest],
-    ["name", "name", requiredCheck],
+    ["email", "email", [requiredCheck, emailCheck]],
+    ["phone", "phone", combineValidators(requiredCheck, phoneNumberCheck)],
+    ["giftCode", "giftCode", requiredCheck, skipGift],
   ]);
 
-  const actual = validator({ guest: true });
+  const actual = validator({ gift: false, email: "invalid@example", phone: "777-666-55" });
   const expected = {
     valid: false,
     errors: {
-      name: "is required",
+      email: ["is invalid email"],
+      phone: "is invalid phone",
     },
   };
 
