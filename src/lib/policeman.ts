@@ -82,7 +82,7 @@ export default function policeman(schema: Schema) {
       .map(entry => validateToErrors.apply(null, [source, ...entry]));
 
     const errors = validated.reduce((errs: Object, [errorPath, error]) => set(errs, errorPath, error), {});
-    const valid = !validated.find(([_errorPath, _error, correct]) => !correct);
+    const valid = validated.reduce((val, [_errorPath, _error, correct]) => val && correct, true);
 
     return { errors, valid };
   };

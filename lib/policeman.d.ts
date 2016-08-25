@@ -13,7 +13,7 @@ export declare type Schema = Array<[string, string, Validate] | [string, string,
  */
 export default function policeman(schema: Schema): (source: Object) => {
     errors: any;
-    valid: boolean;
+    valid: any;
 };
 /**
  * Combines list of validators passed as params into single validator

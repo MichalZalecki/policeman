@@ -1,14 +1,14 @@
 "use strict";
-const tape = require("tape");
-const policeman_1 = require("../lib/policeman");
-const validators_1 = require("../lib/validators");
+var tape = require("tape");
+var policeman_1 = require("../lib/policeman");
+var validators_1 = require("../lib/validators");
 function appliesSignleValidator(t) {
-    const requiredCheck = validators_1.isRequired(() => "is required");
-    const validator = policeman_1.default([
+    var requiredCheck = validators_1.isRequired(function () { return "is required"; });
+    var validator = policeman_1.default([
         ["fullName", "full_name", requiredCheck],
     ]);
-    const actual = validator({});
-    const expected = {
+    var actual = validator({});
+    var expected = {
         valid: false,
         errors: {
             fullName: "is required",
@@ -17,13 +17,13 @@ function appliesSignleValidator(t) {
     t.deepEqual(actual, expected, "results in single error if single validator was specified");
 }
 function appliesMultipleValidators(t) {
-    const requiredCheck = validators_1.isRequired(() => "is required");
-    const emailCheck = validators_1.isEmail(() => "is invalid email");
-    const validator = policeman_1.default([
+    var requiredCheck = validators_1.isRequired(function () { return "is required"; });
+    var emailCheck = validators_1.isEmail(function () { return "is invalid email"; });
+    var validator = policeman_1.default([
         ["email", "email", [requiredCheck, emailCheck]],
     ]);
-    const actual = validator({});
-    const expected = {
+    var actual = validator({});
+    var expected = {
         valid: false,
         errors: {
             email: ["is required", "is invalid email"],
@@ -32,13 +32,13 @@ function appliesMultipleValidators(t) {
     t.deepEqual(actual, expected, "results in multiple errors if multiple validators were specified");
 }
 function combinesMultipleValidators(t) {
-    const requiredCheck = validators_1.isRequired(() => "is required");
-    const emailCheck = validators_1.isEmail(() => "is invalid email");
-    const validator = policeman_1.default([
+    var requiredCheck = validators_1.isRequired(function () { return "is required"; });
+    var emailCheck = validators_1.isEmail(function () { return "is invalid email"; });
+    var validator = policeman_1.default([
         ["email", "email", policeman_1.combineValidators(requiredCheck, emailCheck)],
     ]);
-    const actual = validator({ email: "invalid" });
-    const expected = {
+    var actual = validator({ email: "invalid" });
+    var expected = {
         valid: false,
         errors: {
             email: "is invalid email",
@@ -47,13 +47,13 @@ function combinesMultipleValidators(t) {
     t.deepEqual(actual, expected, "results in single error if multiple validators were combined");
 }
 function validCombinesMultipleValidators(t) {
-    const requiredCheck = validators_1.isRequired(() => "is required");
-    const emailCheck = validators_1.isEmail(() => "is invalid email");
-    const validator = policeman_1.default([
+    var requiredCheck = validators_1.isRequired(function () { return "is required"; });
+    var emailCheck = validators_1.isEmail(function () { return "is invalid email"; });
+    var validator = policeman_1.default([
         ["email", "email", policeman_1.combineValidators(requiredCheck, emailCheck)],
     ]);
-    const actual = validator({ email: "test@example.com" });
-    const expected = {
+    var actual = validator({ email: "test@example.com" });
+    var expected = {
         valid: true,
         errors: {
             email: null,
@@ -62,17 +62,17 @@ function validCombinesMultipleValidators(t) {
     t.deepEqual(actual, expected, "passes validation with combined multiple validators");
 }
 function skipValidationByFilter(t) {
-    const requiredCheck = validators_1.isRequired(() => "is required");
-    const emailCheck = validators_1.isEmail(() => "is invalid email");
-    const phoneNumberCheck = validators_1.isMatching(/\d{3}-?\d{3}-?\d{3}/, () => "is invalid phone");
-    const skipGift = (value, source) => source.gift === true;
-    const validator = policeman_1.default([
+    var requiredCheck = validators_1.isRequired(function () { return "is required"; });
+    var emailCheck = validators_1.isEmail(function () { return "is invalid email"; });
+    var phoneNumberCheck = validators_1.isMatching(/\d{3}-?\d{3}-?\d{3}/, function () { return "is invalid phone"; });
+    var skipGift = function (value, source) { return source.gift === true; };
+    var validator = policeman_1.default([
         ["email", "email", [requiredCheck, emailCheck]],
         ["phone", "phone", policeman_1.combineValidators(requiredCheck, phoneNumberCheck)],
         ["giftCode", "giftCode", requiredCheck, skipGift],
     ]);
-    const actual = validator({ gift: false, email: "invalid@example", phone: "777-666-55" });
-    const expected = {
+    var actual = validator({ gift: false, email: "invalid@example", phone: "777-666-55" });
+    var expected = {
         valid: false,
         errors: {
             email: ["is invalid email"],
@@ -82,15 +82,15 @@ function skipValidationByFilter(t) {
     t.deepEqual(actual, expected, "skips entry validation if filter gives false");
 }
 function validSkipValidationByFilter(t) {
-    const requiredCheck = validators_1.isRequired(() => "is required");
-    const emailCheck = validators_1.isEmail(() => "is invalid email");
-    const isntGuest = (value, source) => source.guest !== true;
-    const validator = policeman_1.default([
+    var requiredCheck = validators_1.isRequired(function () { return "is required"; });
+    var emailCheck = validators_1.isEmail(function () { return "is invalid email"; });
+    var isntGuest = function (value, source) { return source.guest !== true; };
+    var validator = policeman_1.default([
         ["email", "email", [requiredCheck, emailCheck], isntGuest],
         ["name", "name", requiredCheck],
     ]);
-    const actual = validator({ guest: true, name: "Foo" });
-    const expected = {
+    var actual = validator({ guest: true, name: "Foo" });
+    var expected = {
         valid: true,
         errors: {
             name: null,
@@ -98,7 +98,7 @@ function validSkipValidationByFilter(t) {
     };
     t.deepEqual(actual, expected, "skips entry validation if filter gives false");
 }
-tape("policeman", (t) => {
+tape("policeman", function (t) {
     t.plan(6);
     appliesSignleValidator(t);
     appliesMultipleValidators(t);
