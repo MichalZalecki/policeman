@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.2
+
+* Improve example in README
+
 ## 0.2.1
 
 * Fix #1
