@@ -94,7 +94,7 @@ export default function policeman(schema: Schema) {
  * @returns Validator capable of performing multiple validations, returning first error
  */
 export function combineValidators(...validators: Validator[]): Validator {
-  return (value: any, source: Object) => applyValidators(value, source, validators)[0];
+  return (value: any, source: Object) => applyValidators(value, source, validators)[0] || null;
 }
 
 export * from "./validators";
