@@ -28,7 +28,7 @@ const emailValidator = isEmail(() => "is invalid email");
 const phoneNumberValidator = isMatching(/\d{3}-?\d{3}-?\d{3}/, () => "is invalid phone");
 
 // setup entry filter predicates
-const skipIfGift: Filter = (value: any, source: User) => source.gift === true;
+const isGift: Filter = (value, source) => source.gift === true;
 
 // define schema
 const schema = [
@@ -39,7 +39,7 @@ const schema = [
   ["email", "email", [requiredValidator, emailValidator]], // #1
   ["phone", "phone", combineValidators(requiredValidator, phoneNumberValidator)], // #2
   ["name", "name", requiredValidator], // #3
-  ["giftCode", "giftCode", requiredValidator, skipIfGift], // #4
+  ["giftCode", "giftCode", requiredValidator, isGift], // #4
 ];
 
 // create validator
