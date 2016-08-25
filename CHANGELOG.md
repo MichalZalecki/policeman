@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.3
+
+* Target ES5
+
 ## 0.2.2
 
 * Improve example in README
