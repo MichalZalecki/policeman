@@ -1,6 +1,6 @@
 {
   "name": "policeman",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Lightweight yet powerful schema validator",
   "main": "lib/policeman.js",
   "scripts": {

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.4
+
+* Update Email Regexp
+
 ## 0.2.3
 
 * Target ES5
