@@ -28,7 +28,7 @@ const emailValidator = isEmail(() => "is invalid email");
 const phoneNumberValidator = isMatching(/\d{3}-?\d{3}-?\d{3}/, () => "is invalid phone");
 
 // setup entry filter predicates
-const isGift: Filter = (value, source) => source.gift === true;
+const isGift = (value, source) => source.gift === true;
 
 // define schema
 const schema = [
@@ -36,10 +36,12 @@ const schema = [
   // 2. combine validators - first of many errors
   // 3. single validator - single error
   // 4. skip validation based on filter predicate
+
   ["email", "email", [requiredValidator, emailValidator]], // #1
   ["phone", "phone", combineValidators(requiredValidator, phoneNumberValidator)], // #2
   ["name", "name", requiredValidator], // #3
   ["giftCode", "giftCode", requiredValidator, isGift], // #4
+  // [dest, source, Validator, Filter]
 ];
 
 // create validator
@@ -100,9 +102,9 @@ It makes `policeman` compatible with all available validators i.e. [validator](h
 import validator from "validator";
 import { isPassing } from "policeman";
 
-const isCreditCard = isPassing(validator.isCreditCard, () => "is invalid credit card");
-const isUUID4 = isPassing(value => validator.isUUID(value, 4), () => "is invalid UUID v4");
-const isFTP = isPassing(value => validator.isURL(value, { protocols: ["ftp"] }, () => "is invalid FTP address");
+const creditCardValidator = isPassing(validator.isCreditCard, () => "is invalid credit card");
+const uuid4Validator = isPassing(value => validator.isUUID(value, 4), () => "is invalid UUID v4");
+const ftpValidator = isPassing(value => validator.isURL(value, { protocols: ["ftp"] }, () => "is invalid FTP address");
 ```
 
 See [tests](src/test/validators.test.ts) for more examples.
