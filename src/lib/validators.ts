@@ -23,7 +23,7 @@ export const isEqualLength = curry((equal: number, message: Message, value: stri
 });
 
 export const isEmail = curry((message: Message, value: string) => {
-  const valid = /^[a-z0-9_\-\.]{2,}@[a-z0-9_\-\.]{2,}\.[a-z]{2,}$/i.test(value);
+  const valid = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i.test(value);
   return valid ? null : message(value);
 });
 

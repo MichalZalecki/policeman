@@ -30,6 +30,7 @@ function testIsEqualLengthValidator(t) {
 function testIsEmail(t) {
     var email = policeman_1.isEmail(function () { return "is invalid email"; });
     t.is(email("foo@bar.com"), null, "isEmail accepts valid email");
+    t.is(email("foo+1@bar.com"), null, "isEmail accepts valid email");
     t.is(email("foo@.com"), "is invalid email", "isEmail fails on invalid email");
 }
 function testIsMatching(t) {
@@ -45,7 +46,7 @@ function testIsPassing(t) {
     t.is(matching("bar"), "must be \"foo\"", "predicate returns false on not \"foo\"");
 }
 tape("validators", function (t) {
-    t.plan(21);
+    t.plan(22);
     testIsRequired(t);
     testIsMinLengthValidator(t);
     testIsMaxLengthValidator(t);

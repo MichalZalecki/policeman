@@ -42,6 +42,7 @@ function testIsEqualLengthValidator(t: tape.Test) {
 function testIsEmail(t: tape.Test) {
   const email = isEmail(() => "is invalid email");
   t.is(email("foo@bar.com"), null, "isEmail accepts valid email");
+  t.is(email("foo+1@bar.com"), null, "isEmail accepts valid email");
   t.is(email("foo@.com"), "is invalid email", "isEmail fails on invalid email");
 }
 
@@ -60,7 +61,7 @@ function testIsPassing(t: tape.Test) {
 }
 
 tape("validators", (t: tape.Test) => {
-  t.plan(21);
+  t.plan(22);
   testIsRequired(t);
   testIsMinLengthValidator(t);
   testIsMaxLengthValidator(t);
