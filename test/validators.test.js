@@ -14,6 +14,7 @@ function testIsMinLengthValidator(t) {
     t.is(isMinLength4("foo bar"), null, "isMinLength(4) accepts strings with 4+ characters");
     t.is(isMinLength4("fooz"), null, "isMinLength(4) accepts strings with 4 characters");
     t.is(isMinLength4("foo"), "should be at least 4", "isMinLength(4) fails on strings with 4- characters");
+    t.is(isMinLength4(undefined), "should be at least 4", "isMinLength(4) fails on undefined");
 }
 function testIsMaxLengthValidator(t) {
     var isMaxLength4 = policeman_1.isMaxLength(4, function () { return "should be at most 4"; });
@@ -46,7 +47,7 @@ function testIsPassing(t) {
     t.is(matching("bar"), "must be \"foo\"", "predicate returns false on not \"foo\"");
 }
 tape("validators", function (t) {
-    t.plan(22);
+    t.plan(23);
     testIsRequired(t);
     testIsMinLengthValidator(t);
     testIsMaxLengthValidator(t);

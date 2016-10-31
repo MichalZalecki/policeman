@@ -1,6 +1,6 @@
 import * as curry from "lodash/curry";
 
-type Message = (value: any) => string;
+export type Message = (value: any) => string;
 
 export const isRequired = curry((message: Message, value: string | boolean) => {
   const valid = value !== null && value !== undefined && value !== "";
@@ -8,7 +8,7 @@ export const isRequired = curry((message: Message, value: string | boolean) => {
 });
 
 export const isMinLength = curry((min: number, message: Message, value: string) => {
-  const valid = value.length >= min;
+  const valid = value && value.length >= min;
   return valid ? null : message(value);
 });
 

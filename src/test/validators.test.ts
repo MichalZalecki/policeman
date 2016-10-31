@@ -23,6 +23,7 @@ function testIsMinLengthValidator(t: tape.Test) {
   t.is(isMinLength4("foo bar"), null, "isMinLength(4) accepts strings with 4+ characters");
   t.is(isMinLength4("fooz"), null, "isMinLength(4) accepts strings with 4 characters");
   t.is(isMinLength4("foo"), "should be at least 4", "isMinLength(4) fails on strings with 4- characters");
+  t.is(isMinLength4(undefined), "should be at least 4", "isMinLength(4) fails on undefined");
 }
 
 function testIsMaxLengthValidator(t: tape.Test) {
@@ -61,7 +62,7 @@ function testIsPassing(t: tape.Test) {
 }
 
 tape("validators", (t: tape.Test) => {
-  t.plan(22);
+  t.plan(23);
   testIsRequired(t);
   testIsMinLengthValidator(t);
   testIsMaxLengthValidator(t);
