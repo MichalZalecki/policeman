@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.5
+
+* `isMinLength` can handle undefined
+
 ## 0.2.4
 
 * Update Email Regexp
